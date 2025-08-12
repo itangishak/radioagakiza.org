@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Online Radio Player</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
+
+  .centered-title {
+    text-align: center;
+    /* Additional styling for the title */
+    font-size: 24px;
+    font-weight: bold;
+  }
+  #btn{
+      width:100px;
+      height:100px;
+  }
+  .bi-play-circle,.bi-pause-circle{
+      font-size:40px;
+  }
+  .bi-pause-circle{
+     display:none;
+  }
+</style>
+</head>
+<body>
+
+<div id="radioPlayer">
+   
+    <button><i class="bi bi-play-circle"></i>
+    <i class="bi bi-pause-circle"></i>
+    </button>
+</div>
+
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+    var radioStreamUrl = "https://info.bumadventiste.org:8000/rtnb2";
+    var radio = new Audio(radioStreamUrl);
+
+    var playButton = document.querySelector('.bi-play-circle');
+    var pauseButton = document.querySelector('.bi-pause-circle');
+  
+
+    playButton.addEventListener('click', function() {
+        radio.play();
+        playButton.style.display="none"
+        pauseButton.style.display="block"
+    });
+
+    pauseButton.addEventListener('click', function() {
+        radio.pause();
+        pauseButton.style.display="none"
+        playButton.style.display="block"
+    });
+   
+    });
+
+</script>
+
+</body>
+</html>
