@@ -233,30 +233,58 @@
   if (volMute) volMute.style.display = 'none';
   if (volUp) volUp.style.display = 'inline-block';
 
-  // Test stream function (for debugging)
-  window.testStream = function() {
-    const statusEl = $('#stream-status');
-    if (statusEl) statusEl.textContent = 'Testing...';
-    
-    const testAudio = new Audio();
-    testAudio.src = STREAM_URLS[currentStreamIndex];
-    
-    testAudio.addEventListener('canplay', () => {
-      if (statusEl) statusEl.textContent = 'Stream OK ✓';
-      console.log('Stream test successful');
-    });
-    
-    testAudio.addEventListener('error', (e) => {
-      if (statusEl) statusEl.textContent = 'Stream Error ✗';
-      console.error('Stream test failed:', e);
-    });
-    
-    testAudio.load();
+  // Make functions available globally for debugging
+  window.radioPlayer = {
+    play: play,
+    pause: pause,
+    toggleMute: toggleMute,
+    tryNextStream: tryNextStream,
+    getCurrentStream: () => STREAM_URLS[currentStreamIndex]
   };
-
-  // Auto-test stream on page load
-  setTimeout(() => {
-    if (window.testStream) window.testStream();
-  }, 2000);
   
 })();
+
+// Global test stream function (outside IIFE)
+window.testStream = function() {
+  const $ = (sel) => document.querySelector(sel);
+  const statusEl = $('#stream-status');
+  
+  if (statusEl) statusEl.textContent = 'Testing...';
+  
+  const STREAM_URLS = window.STREAM_URLS || [
+    "https://cast6.asurahosting.com/proxy/radioaga/stream",
+    "https://cast6.asurahosting.com:8000/radioaga",
+    "http://cast6.asurahosting.com/proxy/radioaga/stream"
+  ];
+  
+  const currentIndex = window.CURRENT_STREAM_INDEX || 0;
+  const testAudio = new Audio();
+  testAudio.src = STREAM_URLS[currentIndex];
+  
+  console.log('Testing stream:', testAudio.src);
+  
+  testAudio.addEventListener('canplay', () => {
+    if (statusEl) statusEl.textContent = 'Stream OK ✓';
+    console.log('Stream test successful');
+  });
+  
+  testAudio.addEventListener('error', (e) => {
+    if (statusEl) statusEl.textContent = 'Stream Error ✗';
+    console.error('Stream test failed:', e);
+  });
+  
+  testAudio.addEventListener('loadstart', () => {
+    console.log('Stream test: loading started');
+  });
+  
+  testAudio.load();
+};
+
+// Auto-test stream on page load
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    if (window.testStream) {
+      window.testStream();
+    }
+  }, 2000);
+});
