@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Responsive Content Layout</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
     #maincontents{
         max-width: 75rem;
@@ -43,56 +36,60 @@
       height: 2px;
       background-color: red;
       width: 80%;
-      margin: auto;
-      margin-top: 10px;
+      margin: 20px auto 10px auto;
+      border: none;
     }
     .point {
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background-color: black;
-      margin-left: 110px;
-      margin-top: -10px;
       background-color: red;
+      margin: -8px auto 0 auto;
+      position: relative;
+      left: -10%;
     }
     .point1 {
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background-color: black;
-      margin-left: -20px;
-      margin-top: -35px;
       background-color: red;
+      margin: -30px auto 0 auto;
+      position: relative;
+      right: 25%;
     }
     #ikibiriraho{
       position: absolute;
       right: 25%;
+      top: 50%;
+      transform: translateY(-50%);
     }
     #playradio{
-     
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-top: 30px;
+    gap: 60px;
     }
  .bi-play-circle{
- 
      text-align: center;
      font-size: 50px;
-     
+     cursor: pointer;
    }
    .bi-pause-circle{
       text-align: center;
      font-size: 50px;
      display:none;
-     
+     cursor: pointer;
    }
    .bi-volume-mute,.bi-volume-up{
     font-size: 30px;
-    margin: 0 80px 0 80px;
-  
+    cursor: pointer;
    }
 
+   .audio-player {
+    position: relative;
+    margin-top: 20px;
+   }
 
   .articles {
     margin-top: -50px;
@@ -251,26 +248,29 @@
       right: 10%;
     }
     #playradio{
-     
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-top: 40px;
-    margin-bottom: 100px;
+    margin-bottom: 20px;
+    gap: 40px;
     }
     .bi-volume-mute,.bi-volume-up{
     font-size: 30px;
-    margin: 0 13px 0 17px;
-  
    }
+   
+   .point {
+      left: -5%;
+    }
+    .point1 {
+      right: 15%;
+    }
     
   }
 
 
 
 </style>
-</head>
-<body>
 <div id="maincontents">
     <div id="radioplayercontainer">
         <div id="audiplayerheader">
@@ -279,6 +279,13 @@
            </p>
             <p id="devis">Shishikara kunezezwa n'ibiganiro vya Radio yacu,Radio yanyu,Radio yacu twese</p>
         </div>
+        <div id="playradio">
+          <i class="bi bi-volume-up"></i>
+          <i class="bi bi-play-circle"></i>
+          <i class="bi bi-pause-circle"></i>
+          <i class="bi bi-volume-mute"></i>
+        </div>
+        
         <div class="audio-player">
             <hr class="hero">
             <div class="point"></div>
@@ -286,15 +293,6 @@
               <p>Ikibiriraho</p>
               <div class="point1"></div>
             </div>
-            
-
-        </div>
-        <div id="playradio">
-          <i class="bi bi-volume-up"></i>
-          <i class="bi bi-play-circle"></i>
-          <i class="bi bi-pause-circle"></i>
-          <i class="bi bi-volume-mute"></i>
-          
         </div>
         <!-- Live audio element controlled by assets/js/main.js -->
         <audio id="liveAudio" preload="none" crossorigin="anonymous"></audio>
@@ -459,5 +457,3 @@
 <!-- Inline audio logic moved to assets/js/main.js -->
 <!-- Inline date logic moved to assets/js/main.js -->
 <!-- Schedule highlight logic can be re-enabled when DB schedule is active -->
-</body>
-</html>
