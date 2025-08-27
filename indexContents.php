@@ -280,7 +280,7 @@
             <p id="devis">Shishikara kunezezwa n'ibiganiro vya Radio yacu,Radio yanyu,Radio yacu twese</p>
         </div>
         <div class="audio-player">
-            <hr>
+            <hr class="hero">
             <div class="point"></div>
             <div id="ikibiriraho">
               <p>Ikibiriraho</p>
@@ -291,14 +291,16 @@
         </div>
         <div id="playradio">
           <i class="bi bi-volume-up"></i>
-        <!-- <img src="Images/loading image.png">  -->
           <i class="bi bi-play-circle"></i>
           <i class="bi bi-pause-circle"></i>
           <i class="bi bi-volume-mute"></i>
           
-       
-
         </div>
+        <!-- Live audio element controlled by assets/js/main.js -->
+        <audio id="liveAudio" preload="none" crossorigin="anonymous"></audio>
+        <script>
+          window.STREAM_URL = "https://cast6.asurahosting.com/proxy/radioaga/stream";
+        </script>
     </div>
     
    
@@ -454,80 +456,8 @@
   
 </div>
 
-<script>
-    
-    document.addEventListener('DOMContentLoaded', function() {
-    var radioStreamUrl = "https://cast6.asurahosting.com/proxy/radioaga/stream";
-    var radio = new Audio(radioStreamUrl);
-
-    var playButton = document.querySelector('.bi-play-circle');
-    var pauseButton = document.querySelector('.bi-pause-circle');
-    var muteButton = document.querySelector('.bi-volume-mute');
-    var unmuteButton = document.querySelector('.bi-volume-up');
-
-    playButton.addEventListener('click', function() {
-        radio.play();
-        playButton.style.display="none"
-        pauseButton.style.display="block"
-    });
-
-    pauseButton.addEventListener('click', function() {
-        radio.pause();
-        pauseButton.style.display="none"
-        playButton.style.display="block"
-    });
-    muteButton.addEventListener('click', function() {
-        if (radio.muted) {
-            radio.muted = false;
-        } else {
-            radio.muted = true;
-           
-        }
-    });
-    unmuteButton.addEventListener('click', function() {
-       radio.muted = false;
-    });
-    
-    
-    });
-
-</script>
-<script>
-
-    var currentDate=document.getElementById('currentDate');
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0'); // Ensuring two digits
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // JavaScript months are 0-based
-    const year = today.getFullYear();
-     ;
-     currentDate.innerHTML=day + '/' + month + '/' + year;
-   
-</script>
-<script>
-function highlightCurrentProgram() {
-    var shows = document.querySelectorAll('.show');
-    var now = new Date();
-
-    shows.forEach(function(show) {
-        var startTimeString = show.getAttribute('data-start');
-        var endTimeString = show.getAttribute('data-end');
-
-        var startDate = new Date(now.toDateString() + ' ' + startTimeString);
-        var endDate = new Date(now.toDateString() + ' ' + endTimeString);
-
-        if (now >= startDate && now < endDate) {
-            show.classList.add('current-program');
-        } else {
-            show.classList.remove('current-program');
-        }
-    });
-}
-
-// Run the highlight function every minute
-setInterval(highlightCurrentProgram, 60000);
-
-// Highlight current program on initial load
-highlightCurrentProgram();
-</script>
+<!-- Inline audio logic moved to assets/js/main.js -->
+<!-- Inline date logic moved to assets/js/main.js -->
+<!-- Schedule highlight logic can be re-enabled when DB schedule is active -->
 </body>
 </html>

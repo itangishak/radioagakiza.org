@@ -6,6 +6,7 @@
 <link rel="icon" type="image/x-icon" href="https://radioagakiza.org/Images/favicon.ico">
 <title>RADIO AGAKIZA</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="/assets/css/style.css">
 <style>
     body {
         margin: 0;
@@ -237,5 +238,6 @@
         }
    
        </script>
-</body>
-</html>
+       <script defer src="/assets/js/main.js"></script>
+ </body>
+ </html>
