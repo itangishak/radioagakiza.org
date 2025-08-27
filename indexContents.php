@@ -198,6 +198,179 @@
         .current-program {
             background-color: red;
         }
+
+        /* APK Download Section Styles */
+        #apk-download-section {
+            margin: 40px auto;
+            max-width: 75rem;
+            padding: 0 20px;
+        }
+
+        .apk-container {
+            background: linear-gradient(135deg, #07477B 0%, #61A331 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 20px 0;
+        }
+
+        .apk-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .apk-icon {
+            font-size: 4rem;
+            color: #61A331;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+        }
+
+        .apk-details h3 {
+            font-size: 2rem;
+            margin: 0 0 10px 0;
+            color: white;
+        }
+
+        .apk-details p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .apk-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .feature i {
+            color: #61A331;
+            font-size: 1.2rem;
+        }
+
+        .apk-download {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .download-button-container {
+            text-align: center;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 150px;
+        }
+
+        .download-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .download-btn i {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .download-btn span {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .download-btn small {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .installation-guide h4,
+        .system-requirements h4 {
+            color: #61A331;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .step {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background: #61A331;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content strong {
+            color: #61A331;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .system-requirements ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .system-requirements li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.95rem;
+        }
+
+        .system-requirements li:before {
+            content: "✓ ";
+            color: #61A331;
+            font-weight: bold;
+            margin-right: 8px;
+        }
   
    @media only screen and (max-width: 576px) {
             
@@ -263,6 +436,52 @@
     margin: 0 13px 0 17px;
   
    }
+
+   /* APK Download Mobile Styles */
+   #apk-download-section {
+       padding: 0 10px;
+   }
+
+   .apk-container {
+       padding: 20px;
+   }
+
+   .apk-info {
+       flex-direction: column;
+       text-align: center;
+       margin-bottom: 25px;
+   }
+
+   .apk-details h3 {
+       font-size: 1.5rem;
+   }
+
+   .apk-features {
+       grid-template-columns: 1fr;
+   }
+
+   .apk-download {
+       grid-template-columns: 1fr;
+       gap: 20px;
+   }
+
+   .download-btn {
+       padding: 15px 25px;
+       min-width: 120px;
+   }
+
+   .download-btn i {
+       font-size: 1.5rem;
+   }
+
+   .step {
+       flex-direction: column;
+       gap: 10px;
+   }
+
+   .step-number {
+       align-self: flex-start;
+   }
     
   }
 
@@ -303,7 +522,99 @@
         </script>
     </div>
     
-   
+    <!-- APK Download Section -->
+    <div id="apk-download-section">
+        <h2>Kuramo Porogaramu ya Radio Agakiza</h2>
+        <div class="apk-container">
+            <div class="apk-info">
+                <div class="apk-icon">
+                    <i class="bi bi-phone"></i>
+                </div>
+                <div class="apk-details">
+                    <h3>Radio Agakiza Mobile App</h3>
+                    <p>Wumvire Radio Agakiza aho uri hose! Kuramo porogaramu yacu kuri telefoni yawe.</p>
+                    <div class="apk-features">
+                        <div class="feature">
+                            <i class="bi bi-check-circle"></i>
+                            <span>Wumvire radio mu gihe nyacyo</span>
+                        </div>
+                        <div class="feature">
+                            <i class="bi bi-check-circle"></i>
+                            <span>Soma amakuru mashya</span>
+                        </div>
+                        <div class="feature">
+                            <i class="bi bi-check-circle"></i>
+                            <span>Reba gahunda z'ibiganiro</span>
+                        </div>
+                        <div class="feature">
+                            <i class="bi bi-check-circle"></i>
+                            <span>Duhamagare mu buryo bworoshye</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="apk-download">
+                <div class="download-button-container">
+                    <a href="/downloads/Radio-Agakiza.apk" class="download-btn" download="Radio-Agakiza.apk">
+                        <i class="bi bi-download"></i>
+                        <span>Kuramo APK</span>
+                        <small>Version 1.0</small>
+                    </a>
+                </div>
+                
+                <div class="installation-guide">
+                    <h4>Uburyo bwo kwishyiraho:</h4>
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <strong>Emera gushyiraho:</strong>
+                                <p>Jya ku <em>Settings > Security</em> hanyuma ukore <em>"Unknown Sources"</em> cyangwa <em>"Install from Unknown Sources"</em></p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <strong>Kuramo APK:</strong>
+                                <p>Kanda ku butoni <em>"Kuramo APK"</em> hejuru kugira ngo ukuruze dosiye</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <strong>Fungura dosiye:</strong>
+                                <p>Nyuma yo gukurura, fungura dosiye ya <em>"Radio-Agakiza.apk"</em> mu <em>Downloads</em></p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <strong>Shyiraho:</strong>
+                                <p>Kanda <em>"Install"</em> hanyuma utegereze ko porogaramu ishyirwaho</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <div class="step-content">
+                                <strong>Fungura:</strong>
+                                <p>Nyuma yo kwishyiraho, kanda <em>"Open"</em> cyangwa ushake ikoni ya Radio Agakiza kuri telefoni yawe</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="system-requirements">
+                    <h4>Ibisabwa:</h4>
+                    <ul>
+                        <li>Android 5.0 cyangwa hejuru</li>
+                        <li>Umwanya wa 15MB</li>
+                        <li>Umurongo wa Internet</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <h2>Ibiheruka kwandika</h2>
     <div class="articles">
