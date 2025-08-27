@@ -59,41 +59,94 @@
   const footerYear = $('#currentDateF');
   if (footerYear) footerYear.textContent = new Date().getFullYear();
 
-  // Audio player logic
+  // Audio player logic with multiple stream fallbacks
   const audio = $('#liveAudio');
   const playIcon = $('.bi-play-circle');
   const pauseIcon = $('.bi-pause-circle');
   const volUp = $('.bi-volume-up');
   const volMute = $('.bi-volume-mute');
 
-  // Config: set your stream URL here or via window.STREAM_URL
-  const STREAM_URL = window.STREAM_URL || 'https://cast6.asurahosting.com/proxy/radioaga/stream';
+  // Stream URLs with fallbacks
+  const STREAM_URLS = window.STREAM_URLS || [
+    "https://cast6.asurahosting.com/proxy/radioaga/stream",
+    "https://cast6.asurahosting.com:8000/radioaga",
+    "http://cast6.asurahosting.com/proxy/radioaga/stream"
+  ];
   
-  if (audio && STREAM_URL) {
-    audio.src = STREAM_URL;
-    audio.crossOrigin = 'anonymous';
+  let currentStreamIndex = window.CURRENT_STREAM_INDEX || 0;
+  let isPlaying = false;
+  let playAttempts = 0;
+  const maxPlayAttempts = 3;
+
+  function setAudioSource() {
+    if (audio && STREAM_URLS[currentStreamIndex]) {
+      audio.src = STREAM_URLS[currentStreamIndex];
+      console.log('Set audio source to:', audio.src);
+    }
+  }
+
+  function tryNextStream() {
+    currentStreamIndex = (currentStreamIndex + 1) % STREAM_URLS.length;
+    setAudioSource();
+    console.log('Trying next stream:', STREAM_URLS[currentStreamIndex]);
+  }
+
+  function showPlayButton() {
+    if (playIcon) playIcon.style.display = 'inline-block';
+    if (pauseIcon) pauseIcon.style.display = 'none';
+    isPlaying = false;
+  }
+
+  function showPauseButton() {
+    if (playIcon) playIcon.style.display = 'none';
+    if (pauseIcon) pauseIcon.style.display = 'inline-block';
+    isPlaying = true;
   }
 
   function play() {
     if (!audio) {
       console.error('Audio element not found');
+      alert('Audio player not available');
       return;
     }
-    if (!audio.src) {
-      console.error('No stream URL configured');
+
+    if (playAttempts >= maxPlayAttempts) {
+      alert('Unable to connect to radio stream. Please try again later.');
+      playAttempts = 0;
       return;
+    }
+
+    if (!audio.src) {
+      setAudioSource();
     }
     
     console.log('Attempting to play audio from:', audio.src);
+    playAttempts++;
     
-    audio.play().then(() => {
-      console.log('Audio started playing');
-      if (playIcon) playIcon.style.display = 'none';
-      if (pauseIcon) pauseIcon.style.display = 'inline-block';
-    }).catch((error) => {
-      console.error('Audio play failed:', error);
-      alert('Unable to play radio stream. Please check your internet connection.');
-    });
+    // Reset audio element
+    audio.load();
+    
+    const playPromise = audio.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        console.log('Audio started playing successfully');
+        showPauseButton();
+        playAttempts = 0; // Reset attempts on success
+      }).catch((error) => {
+        console.error('Audio play failed:', error);
+        
+        if (playAttempts < maxPlayAttempts) {
+          console.log('Trying next stream...');
+          tryNextStream();
+          setTimeout(() => play(), 1000); // Try again after 1 second
+        } else {
+          alert('Unable to play radio stream. Please check your internet connection or try again later.');
+          showPlayButton();
+          playAttempts = 0;
+        }
+      });
+    }
   }
   
   function pause() {
@@ -101,8 +154,8 @@
     
     audio.pause();
     console.log('Audio paused');
-    if (pauseIcon) pauseIcon.style.display = 'none';
-    if (playIcon) playIcon.style.display = 'inline-block';
+    showPlayButton();
+    playAttempts = 0;
   }
 
   function toggleMute() {
@@ -113,9 +166,11 @@
     if (audio.muted) {
       if (volUp) volUp.style.display = 'none';
       if (volMute) volMute.style.display = 'inline-block';
+      console.log('Audio muted');
     } else {
       if (volMute) volMute.style.display = 'none';
       if (volUp) volUp.style.display = 'inline-block';
+      console.log('Audio unmuted');
     }
   }
 
@@ -125,17 +180,83 @@
   if (volUp) volUp.addEventListener('click', toggleMute);
   if (volMute) volMute.addEventListener('click', toggleMute);
 
-  // Audio event listeners for debugging
+  // Audio event listeners for better handling
   if (audio) {
-    audio.addEventListener('loadstart', () => console.log('Audio loading started'));
-    audio.addEventListener('canplay', () => console.log('Audio can start playing'));
-    audio.addEventListener('playing', () => console.log('Audio is playing'));
-    audio.addEventListener('pause', () => console.log('Audio paused'));
-    audio.addEventListener('error', (e) => console.error('Audio error:', e));
+    audio.addEventListener('loadstart', () => {
+      console.log('Audio loading started');
+    });
+    
+    audio.addEventListener('canplay', () => {
+      console.log('Audio can start playing');
+    });
+    
+    audio.addEventListener('playing', () => {
+      console.log('Audio is playing');
+      showPauseButton();
+    });
+    
+    audio.addEventListener('pause', () => {
+      console.log('Audio paused');
+      showPlayButton();
+    });
+    
+    audio.addEventListener('ended', () => {
+      console.log('Audio ended');
+      showPlayButton();
+    });
+    
+    audio.addEventListener('error', (e) => {
+      console.error('Audio error:', e.target.error);
+      if (isPlaying || playAttempts > 0) {
+        console.log('Audio error occurred, trying next stream...');
+        tryNextStream();
+        if (playAttempts < maxPlayAttempts) {
+          setTimeout(() => play(), 1000);
+        } else {
+          showPlayButton();
+          playAttempts = 0;
+        }
+      }
+    });
+
+    audio.addEventListener('stalled', () => {
+      console.log('Audio stalled');
+    });
+
+    audio.addEventListener('waiting', () => {
+      console.log('Audio waiting for data');
+    });
   }
 
-  // Initialize volume controls visibility
+  // Initialize audio source and volume controls
+  setAudioSource();
   if (volMute) volMute.style.display = 'none';
   if (volUp) volUp.style.display = 'inline-block';
+
+  // Test stream function (for debugging)
+  window.testStream = function() {
+    const statusEl = $('#stream-status');
+    if (statusEl) statusEl.textContent = 'Testing...';
+    
+    const testAudio = new Audio();
+    testAudio.src = STREAM_URLS[currentStreamIndex];
+    
+    testAudio.addEventListener('canplay', () => {
+      if (statusEl) statusEl.textContent = 'Stream OK ✓';
+      console.log('Stream test successful');
+    });
+    
+    testAudio.addEventListener('error', (e) => {
+      if (statusEl) statusEl.textContent = 'Stream Error ✗';
+      console.error('Stream test failed:', e);
+    });
+    
+    testAudio.load();
+  };
+
+  // Auto-test stream on page load
+  setTimeout(() => {
+    if (window.testStream) window.testStream();
+  }, 2000);
   
 })();

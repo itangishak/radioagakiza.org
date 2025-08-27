@@ -286,6 +286,12 @@
           <i class="bi bi-volume-mute"></i>
         </div>
         
+        <!-- Debug info (remove this later) -->
+        <div id="debug-info" style="text-align: center; margin: 10px 0; font-size: 12px; color: #666;">
+          <p>Stream Status: <span id="stream-status">Checking...</span></p>
+          <button onclick="testStream()" style="padding: 5px 10px; font-size: 12px;">Test Stream</button>
+        </div>
+        
         <div class="audio-player">
             <hr class="hero">
             <div class="point"></div>
@@ -295,9 +301,15 @@
             </div>
         </div>
         <!-- Live audio element controlled by assets/js/main.js -->
-        <audio id="liveAudio" preload="none" crossorigin="anonymous"></audio>
+        <audio id="liveAudio" preload="none" controls style="display: none;"></audio>
         <script>
-          window.STREAM_URL = "https://cast6.asurahosting.com/proxy/radioaga/stream";
+          // Multiple stream URLs as fallbacks
+          window.STREAM_URLS = [
+            "https://cast6.asurahosting.com/proxy/radioaga/stream",
+            "https://cast6.asurahosting.com:8000/radioaga",
+            "http://cast6.asurahosting.com/proxy/radioaga/stream"
+          ];
+          window.CURRENT_STREAM_INDEX = 0;
         </script>
     </div>
     
